@@ -68,8 +68,7 @@ Please see the "Usage" section below for more information on how to use Hbind.
 
 To execute Hbind, please navigate to its main directory from where you installed it and run the following command to identify the hydrogen bonds in a protein ligand interface:
 
-    ./bin/hbind -p ./example_files/1KPF.pdb \
-    -l ./example_files/1KPF_AMP.mol2 
+    ./bin/hbind -p ./example_files/1KPF.pdb -l ./example_files/1KPF_AMP.mol2 
 
 Here, 1KPF.pdb is an excerpt from the PDB structure [1KPF](https://www.rcsb.org/pdb/explore.do?structureId=1kpf) (PKCI-substrate analog) with its ligand `1KPF_AMP.mol2` (adenosine monophsophate). The structures are provided in Hbind's subdirectory "[example_files/](./example_files)".
 
