@@ -31,7 +31,7 @@ Documentation: [https://psa-lab.github.io/Hbind](https://psa-lab.github.io/Hbind
 
 Installing Hbind requires [Perl](https://www.perl.org) and the [GCC](https://gcc.gnu.org) compiler, both of which come pre-installed with most Unix- and Linux-based operating systems. 
 
-Note: Original code cannot adapt to the latest GCC version (12.2.0) on macOS. Root cause: functions defined above can't call functions defined below. This version has changed the order of several functions to fit GCC 12.2.0.
+* Note: Original code cannot adapt to the latest GCC version (12.2.0) on macOS. Root cause: functions defined above can't call functions defined below. This version has changed the order of several functions to fit GCC 12.2.0.
 
 To install Hbind, simply download this repository, unpack it, and navigate into the main Hbind folder. Then, execute the following command in your terminal:
 
