@@ -29,7 +29,8 @@ Documentation: [https://psa-lab.github.io/Hbind](https://psa-lab.github.io/Hbind
 
 ## Installation
 
-Installing Hbind requires [Perl](https://www.perl.org) and the [GCC](https://gcc.gnu.org) compiler, both of which come pre-installed with most Unix- and Linux-based operating systems.
+Installing Hbind requires [Perl](https://www.perl.org) and the [GCC](https://gcc.gnu.org) compiler, both of which come pre-installed with most Unix- and Linux-based operating systems. 
+*Original code cannot adapt to the latest GCC version (12.2.0) on macOS. Root cause: functions defined above can't call functions defined below. This version has changed the order of several functions to fit GCC 12.2.0.
 
 To install Hbind, simply download this repository, unpack it, and navigate into the main Hbind folder. Then, execute the following command in your terminal:
 
@@ -73,7 +74,7 @@ Here, 1KPF.pdb is an excerpt from the PDB structure [1KPF](https://www.rcsb.org/
 
 ***Before you run Hbind, please make sure that you provide the protein structure in PDB format and the ligand structure in MOL2 format, and please ensure that the ligand's protonation state (hydrogen assignment) is correct.***
 
-To protonate a ligand, tools such as [OpenEye MolCharge](https://docs.eyesopen.com/quacpac/molchargeusage.html) can be used. However, it is recommended to protonate a ligand in presence of its protein environment, for example, by using tools such as [What If](http://swift.cmbi.ru.nl/whatif/) or [Yasara OptHyd](http://www.yasara.org/features.htm).
+To protonate a ligand, tools such as [OpenEye MolCharge](https://docs.eyesopen.com/applications/quacpac/molcharge/molcharge.html) can be used. However, it is recommended to protonate a ligand in presence of its protein environment, for example, by using tools such as [What If](https://swift.cmbi.umcn.nl/whatif/) or [Yasara OptHyd](http://www.yasara.org/features.htm).
 
 After running the command from the beginning of this section, the following output should be displayed:
 
