@@ -27,17 +27,16 @@ int check_hyd_atom(molecule_pt  molecule, hyd_defn_pt rules, int index )
            temp_act;
   int      i, j;
 
-  atoms = molecule->atoms;
+  atoms = molecule->atoms; // person->gender
   temp_act = NOTHING;
 
   /* check acceptor rules first */
-  for(i = 0; i < rules->number_of_acceptor_rules && temp_act == NOTHING; i++){ 
-    rule = &rules->acceptor_rules[i]; 
+  for(i = 0; i < rules->number_of_acceptor_rules && temp_act == NOTHING; i++){
+    rule = &rules->acceptor_rules[i]; // apples[5]
 
     /* atom matches current acceptor rule atom, so check required and
      * prohibited rules */
-    if(check_atom(rule->type, rule->orbit, atoms[index].type, 
-                  atoms[index].orbit)){
+    if(check_atom(rule->type, rule->orbit, atoms[index].type, atoms[index].orbit)){
       result = SUCCESS; 
       for(j = 0; j < MAX_RULES_PER_BONDED_ATOM && result == SUCCESS; j++) 
         /* the third parameter is the index of a neighbored atom
@@ -45,8 +44,7 @@ int check_hyd_atom(molecule_pt  molecule, hyd_defn_pt rules, int index )
          * relevant when checking flexible bond rules, so pass
          * index = -1 here */
         if(rule->prohibited[j] != NULL) 
-          result = check_prohibited_rule(molecule, index, -1, 
-                                         rule->prohibited[j]);
+          result = check_prohibited_rule(molecule, index, -1, rule->prohibited[j]);
 
       for(j = 0; j < MAX_RULES_PER_BONDED_ATOM && result == SUCCESS; j++) 
         if(rule->required[j] != NULL ) 
@@ -83,7 +81,45 @@ int check_hyd_atom(molecule_pt  molecule, hyd_defn_pt rules, int index )
 
   /* definitely no donor, in that case the routine would have been left
      before, so it might be nothing or a acceptor, temp_hyd has the answer */
-  return temp_act;
+  return temp_act; // NOTHING, ACCEPTOR, DONOR, DONEPTOR
+}
+
+int check_hyd_atom_for_c(molecule_pt  molecule, int index )
+/* index is the # of the reading atom */
+{
+  // req1: neighbors of C must have N & H
+  // req2: neighbors of N must have at a C meet req3
+  // req3: neighbors of C must have a 0 meet req4
+  // req4: neighbors of O must have no neighbors
+    atom_pt  atoms;
+    //atom_pt  neighbor_atom;
+    int      *neighbors;
+    int      number_of_neighbors;
+    int      temp_act = NOTHING;
+    int      i, j;
+
+    atoms = molecule->atoms;
+    neighbors = molecule->neighbors[index];
+    number_of_neighbors = molecule->number_of_neighbors[index];
+
+    /* check if C has N & H */
+    for (i = 0; i < number_of_neighbors; i++ )
+    {
+        if ( molecule->atoms[neighbors[i]].type == H )
+        {
+            for (j = 0; j < number_of_neighbors; j++)
+            {
+                if (molecule->atoms[neighbors[j]].type == N)
+                    temp_act = DONOR;
+                /*neighbor_atom = &molecule->atoms[neighbors[j]];
+                neighbors = molecule->neighbors[neighbor_atom]; //how to change neighbor
+                number_of_neighbors = molecule->number_of_neighbors[j];
+                for (k = 0, k < number_of_neighbors; k++)
+                    if (molecule->atoms[neighbors[i]].type == H) */
+            }
+        }
+    }
+    return temp_act;
 }
 
 /*  This routine checks all atoms in 'molecule' and assigns the 'hyd'
@@ -98,5 +134,8 @@ void find_hyd_atoms(molecule_pt molecule, hyd_defn_pt rules)
     if(molecule->atoms[i].type == N || molecule->atoms[i].type == O || 
        molecule->atoms[i].type == F || molecule->atoms[i].type == CL){
       molecule->atoms[i].act = check_hyd_atom(molecule, rules, i);
-    }else molecule->atoms[i].act = NOTHING;
+      /* add C-H as donor */
+    } else if (molecule->atoms[i].type == C) {
+        molecule->atoms[i].act = check_hyd_atom_for_c(molecule, i);
+    } else molecule->atoms[i].act = NOTHING;
 }

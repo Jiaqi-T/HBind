@@ -239,6 +239,26 @@ float  compute_ligand_h_angle ( molecule_pt ligand,
 	}
       bond_length = 1.01;
       break;
+	case C:
+	    switch ( atoms[donor_index].orbit ) {
+			case SP2:
+				angle = 120.0;
+				which_case = STRAIGHT_IN_PLANE;	
+				break;
+			case SP3:
+	 			angle = 109.5;
+				which_case = TETRAHEDRAL;
+				break;
+				default:
+			sprintf ( err_msg, 
+					"unknown orbit: %d (%s)\n", 
+					atoms[donor_index].orbit, ligand->name );
+			fprintf ( stderr, err_msg);
+			err_print ( err_msg);
+			err_warning2 ( "compute_ligand_h_angle",
+					"unknown C donor orbit, results unreliable");
+			break;
+		}
     case O:
       if ( atoms[donor_index].orbit != SP3 )
 	{
@@ -266,6 +286,7 @@ float  compute_ligand_h_angle ( molecule_pt ligand,
 		    "unknown hydrogen bond donor type, results unreliable");
       break;
     }
+	// end of switch of type
   neighbors = ligand->neighbors[donor_index];
   count = 0;
   number_of_hydrogens = 0;

@@ -45,7 +45,7 @@ int  analyze_ligand ( global_data_pt  global )
       neighbors = ligand->neighbors[real_index];
       for ( j = 0; j < ligand->number_of_neighbors[real_index]; j++ )
         if ( ligand->atoms[neighbors[j]].type == H )
-	  ligand->atoms[neighbors[j]].act = DONOR_HYDROGEN;
+          ligand->atoms[neighbors[j]].act = DONOR_HYDROGEN;
     }
   }
   memcpy(ligand->orig_atom_positions, ligand->atom_positions, 
